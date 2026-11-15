@@ -1,0 +1,12 @@
+# Uploaded medical documents are PRIVATE: never put them on GitHub.
+# (the empty folder itself is kept by the .gitkeep file)
+uploads/medical_documents/*
+!uploads/medical_documents/.gitkeep
+
+# Editor and system files
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+*.log
+*.zip
