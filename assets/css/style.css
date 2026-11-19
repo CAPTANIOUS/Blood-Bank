@@ -1,0 +1,388 @@
+/* =====================================================================
+   BloodBank theme  -  assets/css/style.css
+   Loaded AFTER Bootstrap, so anything here overrides Bootstrap.
+   ===================================================================== */
+
+/* ---------- 1. Colours (change them here, the whole site changes) ---------- */
+:root {
+    --bl-red:       #B3001B;   /* main blood red            */
+    --bl-red-dark:  #8A0015;   /* hover / dark areas        */
+    --bl-red-soft:  #FCE9EC;   /* very light red backgrounds */
+    --bl-ink:       #231B1C;   /* main text colour          */
+    --bl-muted:     #6B6163;   /* secondary text            */
+    --bl-bg:        #F6F6F7;   /* page background (off-white) */
+    --bl-line:      #E4E1E2;   /* thin borders              */
+
+    /* tell Bootstrap that "primary" now means blood red */
+    --bs-primary:        #B3001B;
+    --bs-primary-rgb:    179, 0, 27;
+    --bs-link-color:     #B3001B;
+    --bs-link-color-rgb: 179, 0, 27;
+    --bs-link-hover-color: #8A0015;
+}
+
+/* ---------- 2. Page basics ---------- */
+body {
+    background: var(--bl-bg);
+    color: var(--bl-ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4, .h5, .h6 { font-weight: 700; letter-spacing: -0.02em; }
+
+:focus-visible { outline: 3px solid rgba(179, 0, 27, .45); outline-offset: 2px; }
+
+/* ---------- 3. Buttons (same look everywhere) ---------- */
+.btn { border-radius: 10px; font-weight: 600; padding: .55rem 1.1rem; }
+
+.btn-primary {
+    --bs-btn-bg: var(--bl-red);
+    --bs-btn-border-color: var(--bl-red);
+    --bs-btn-hover-bg: var(--bl-red-dark);
+    --bs-btn-hover-border-color: var(--bl-red-dark);
+    --bs-btn-active-bg: var(--bl-red-dark);
+    --bs-btn-active-border-color: var(--bl-red-dark);
+    --bs-btn-disabled-bg: var(--bl-red);
+    --bs-btn-disabled-border-color: var(--bl-red);
+}
+
+.btn-outline-blood {
+    --bs-btn-color: var(--bl-red);
+    --bs-btn-border-color: var(--bl-red);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--bl-red);
+    --bs-btn-hover-border-color: var(--bl-red);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--bl-red-dark);
+    --bs-btn-active-border-color: var(--bl-red-dark);
+}
+
+.btn-light-on-red {                      /* white button used on red backgrounds */
+    background: #fff; color: var(--bl-red); border: 0;
+}
+.btn-light-on-red:hover { background: var(--bl-red-soft); color: var(--bl-red-dark); }
+
+.btn-lg { padding: .75rem 1.5rem; }
+
+/* ---------- 4. Navigation bar ---------- */
+.bl-navbar {
+    background: #fff;
+    border-bottom: 1px solid var(--bl-line);
+}
+.bl-brand {
+    display: inline-flex; align-items: center; gap: .45rem;
+    font-weight: 800; font-size: 1.35rem; letter-spacing: -0.03em;
+    color: var(--bl-ink); text-decoration: none;
+}
+.bl-brand:hover { color: var(--bl-ink); }
+.bl-drop { width: 1.5rem; height: 1.5rem; color: var(--bl-red); flex-shrink: 0; }
+.bl-navbar .nav-link { color: var(--bl-ink); font-weight: 550; padding: .5rem .9rem; }
+.bl-navbar .nav-link:hover { color: var(--bl-red); }
+.bl-navbar .nav-link.active { color: var(--bl-red); box-shadow: inset 0 -2px 0 var(--bl-red); }
+
+@media (max-width: 991.98px) {           /* phone menu */
+    .bl-navbar .nav-link.active { box-shadow: none; background: var(--bl-red-soft); border-radius: 8px; }
+    .bl-navbar .d-flex { padding-bottom: .75rem; }
+}
+
+/* ---------- 5. Home page: hero ---------- */
+.bl-hero { padding: 4rem 0 4.5rem; }
+.bl-hero h1 {
+    font-size: clamp(2.2rem, 5.2vw, 3.7rem);
+    font-weight: 700; line-height: 1.05; letter-spacing: -0.03em;
+    max-width: 14ch;
+}
+.bl-hero .lead { color: var(--bl-muted); max-width: 46ch; font-size: 1.15rem; font-weight: 400; }
+
+/* the red panel with the 8 blood-group tiles */
+.bl-finder {
+    background: var(--bl-red);
+    color: #fff;
+    border-radius: 22px;
+    padding: 1.75rem;
+    box-shadow: 0 24px 48px -24px rgba(138, 0, 21, .55);
+}
+.bl-finder h2 { font-size: 1.35rem; margin-bottom: .25rem; }
+.bl-finder p  { color: rgba(255,255,255,.82); margin-bottom: 1.25rem; }
+
+.bl-tile {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 1 / 1;
+    background: #fff; color: var(--bl-red);
+    border-radius: 14px;
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+}
+.bl-tile:hover, .bl-tile:focus-visible { background: var(--bl-ink); color: #fff; }
+
+/* ---------- 6. Sections ---------- */
+.bl-section { padding: 4rem 0; }
+.bl-section-white { background: #fff; border-top: 1px solid var(--bl-line); border-bottom: 1px solid var(--bl-line); }
+.bl-section > .container > h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: .5rem; }
+.bl-section .sub { color: var(--bl-muted); max-width: 55ch; }
+
+/* numbered steps (this IS a real sequence, so numbers make sense) */
+.bl-steps { list-style: none; counter-reset: step; padding: 0; margin: 0; }
+.bl-steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 1.25rem 3rem;
+}
+.bl-steps li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 0;
+    width: 2.1rem; height: 2.1rem; border-radius: 50%;
+    background: var(--bl-red-soft); color: var(--bl-red);
+    font-weight: 750; display: grid; place-items: center;
+}
+.bl-steps li:not(:last-child)::after {   /* the thin line between circles */
+    content: ""; position: absolute; left: 1.05rem; top: 2.4rem; bottom: .3rem;
+    width: 1px; background: var(--bl-line);
+}
+.bl-steps strong { display: block; }
+.bl-steps span   { color: var(--bl-muted); }
+
+.bl-card {
+    background: #fff; border: 1px solid var(--bl-line);
+    border-radius: 16px; padding: 1.75rem; height: 100%;
+}
+.bl-card h3 { font-size: 1.2rem; margin-bottom: 1.25rem; }
+
+/* three short promises, separated by a red rule on top */
+.bl-promise { border-top: 3px solid var(--bl-red); padding-top: 1rem; }
+.bl-promise h3 { font-size: 1.1rem; }
+.bl-promise p  { color: var(--bl-muted); margin: 0; }
+
+/* red call-to-action band */
+.bl-cta { background: var(--bl-red-dark); color: #fff; padding: 3.5rem 0; }
+.bl-cta h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
+.bl-cta p  { color: rgba(255,255,255,.85); }
+
+/* ---------- 7. Footer ---------- */
+.bl-footer { background: var(--bl-ink); color: #fff; padding: 3rem 0 1.5rem; }
+.bl-footer-text { color: rgba(255,255,255,.65); max-width: 52ch; }
+.bl-footer a { color: rgba(255,255,255,.75); text-decoration: none; }
+.bl-footer a:hover { color: #fff; text-decoration: underline; }
+.bl-footer li { margin-bottom: .35rem; }
+.bl-footer-line { border-color: rgba(255,255,255,.15); margin: 2rem 0 1rem; }
+
+/* people who asked their computer for less motion get none */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}
+
+/* =====================================================================
+   PART 2 ADDITIONS (pages, forms, status badges)
+   ===================================================================== */
+
+/* ---------- 8. Page title band (About, Login, Register ...) ---------- */
+.bl-page-head { background: #fff; border-bottom: 1px solid var(--bl-line); padding: 2.75rem 0 2.25rem; }
+.bl-page-head h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: .5rem; }
+.bl-page-head p  { color: var(--bl-muted); max-width: 60ch; margin: 0; font-size: 1.1rem; }
+
+.bl-prose { max-width: 68ch; }
+.bl-prose h2 { font-size: 1.4rem; margin: 2rem 0 .6rem; }
+.bl-prose ul { padding-left: 1.2rem; }
+.bl-prose li { margin-bottom: .4rem; }
+
+/* ---------- 9. Forms ---------- */
+.form-label { font-weight: 600; font-size: .95rem; margin-bottom: .3rem; }
+.form-control, .form-select {
+    border-radius: 10px; border-color: #D3CFD0; padding: .6rem .85rem;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--bl-red);
+    box-shadow: 0 0 0 .22rem rgba(179, 0, 27, .15);
+}
+.form-text { color: var(--bl-muted); }
+.form-check-input:checked { background-color: var(--bl-red); border-color: var(--bl-red); }
+
+.bl-auth-card {
+    background: #fff; border: 1px solid var(--bl-line);
+    border-radius: 18px; padding: 2rem;
+}
+.bl-auth-narrow { max-width: 440px; margin-inline: auto; }
+.bl-form-group-title {                   /* small heading inside long forms */
+    font-size: 1.05rem; margin: 1.75rem 0 .9rem; padding-bottom: .5rem;
+    border-bottom: 1px solid var(--bl-line);
+}
+.bl-form-group-title:first-child { margin-top: 0; }
+
+/* the Donor / Requester switch on the register page */
+.bl-role-switch { background: #ECEAEB; border-radius: 12px; padding: .3rem; display: flex; gap: .3rem; }
+.bl-role-switch .nav-link {
+    flex: 1; text-align: center; color: var(--bl-ink); font-weight: 600; border-radius: 9px;
+}
+.bl-role-switch .nav-link.active { background: #fff; color: var(--bl-red); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+
+/* ---------- 10. Request status badges (used on many pages later) ---------- */
+.bl-status { display: inline-block; padding: .25rem .7rem; border-radius: 999px; font-size: .85rem; font-weight: 650; }
+.bl-status-pending   { background: #FFF1CC; color: #7A5600; }
+.bl-status-review    { background: #DCEBFF; color: #134B8A; }
+.bl-status-approved  { background: #DDF3E4; color: #17653A; }
+.bl-status-matched   { background: #E8E0FA; color: #4B2E91; }
+.bl-status-completed { background: #17653A; color: #fff; }
+.bl-status-rejected  { background: #FBDADF; color: #8A0015; }
+.bl-status-cancelled { background: #E4E1E2; color: #4A4244; }
+
+/* =====================================================================
+   DAY 3 ADDITIONS (dashboards: top bar, sidebar, stat cards)
+   ===================================================================== */
+
+/* ---------- 11. Dashboard frame ---------- */
+.bl-dash-body { background: var(--bl-bg); }
+
+.bl-topbar {
+    position: sticky; top: 0; z-index: 1030;
+    display: flex; align-items: center; gap: .9rem;
+    height: 60px; padding: 0 1.25rem;
+    background: #fff; border-bottom: 1px solid var(--bl-line);
+}
+.bl-role-chip {
+    display: inline-block; margin-left: .35rem; padding: .1rem .55rem;
+    border-radius: 999px; background: var(--bl-red-soft); color: var(--bl-red);
+    font-size: .8rem; font-weight: 650;
+}
+
+.bl-dash-wrap { display: flex; min-height: calc(100vh - 60px); }
+.bl-dash-main { flex: 1 1 auto; min-width: 0; padding: 1.75rem 1.25rem 3rem; max-width: 1180px; }
+@media (min-width: 992px) { .bl-dash-main { padding: 2rem 2rem 3rem; } }
+
+.bl-dash-title { font-size: 1.7rem; margin-bottom: .25rem; }
+
+/* ---------- 12. Sidebar ---------- */
+/* The background belongs to the <aside> itself, so it is as tall as the page. */
+.bl-sidebar { --bs-offcanvas-bg: #fff; }
+.bl-side-admin { --bs-offcanvas-bg: var(--bl-ink); }
+
+@media (min-width: 992px) {
+    .bl-sidebar {
+        flex: 0 0 250px;                     /* fixed width next to the content */
+        background-color: #fff !important;
+        border-right: 1px solid var(--bl-line) !important;
+    }
+    .bl-side-admin { background-color: var(--bl-ink) !important; border-right: 0 !important; }
+}
+.bl-sidebar .offcanvas-body { padding: 0; }
+.bl-side-inner {
+    width: 100%;
+    display: flex; flex-direction: column; gap: .2rem;
+    padding: 1rem .75rem;
+}
+.bl-side-link {
+    display: block; padding: .6rem .9rem; border-radius: 10px;
+    color: var(--bl-ink); font-weight: 550; text-decoration: none;
+}
+a.bl-side-link:hover { background: var(--bl-red-soft); color: var(--bl-red); }
+.bl-side-link.active { background: var(--bl-red); color: #fff; }
+.bl-side-link.disabled { color: #A59DA0; cursor: default; }
+
+/* the admin sidebar is dark so the admin area feels different */
+.bl-side-admin .offcanvas-header { color: #fff; }
+.bl-side-admin .btn-close { filter: invert(1); }
+.bl-side-admin .bl-side-link { color: rgba(255,255,255,.88); }
+.bl-side-admin a.bl-side-link:hover { background: rgba(255,255,255,.1); color: #fff; }
+.bl-side-admin .bl-side-link.active { background: var(--bl-red); color: #fff; }
+.bl-side-admin .bl-side-link.disabled { color: rgba(255,255,255,.45); }
+
+/* ---------- 13. Dashboard cards ---------- */
+.bl-stat {
+    background: #fff; border: 1px solid var(--bl-line);
+    border-radius: 14px; padding: 1.1rem 1.25rem; height: 100%;
+}
+.bl-stat .num { font-size: 2.1rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.bl-stat .lbl { color: var(--bl-muted); font-size: .95rem; }
+.bl-stat-alert { border-left: 4px solid var(--bl-red); }
+.bl-stat-red { background: var(--bl-red); border-color: var(--bl-red); color: #fff; }
+.bl-stat-red .lbl { color: rgba(255,255,255,.85); }
+
+.bl-panel {
+    background: #fff; border: 1px solid var(--bl-line);
+    border-radius: 14px; padding: 1.4rem;
+}
+.bl-panel-title { font-size: 1.1rem; margin-bottom: 1rem; }
+.bl-panel .table th { color: var(--bl-muted); font-weight: 600; font-size: .9rem; white-space: nowrap; }
+
+.bl-status-count { display: flex; align-items: center; gap: .5rem; }
+
+.bl-dl dt { color: var(--bl-muted); font-weight: 500; font-size: .9rem; }
+.bl-dl dd { margin-bottom: .8rem; }
+
+/* =====================================================================
+   PART 4 ADDITIONS (Find Donors, donor profile)
+   ===================================================================== */
+
+/* ---------- 14. Find donors ---------- */
+.bl-filter {
+    background: #fff; border: 1px solid var(--bl-line);
+    border-radius: 16px; padding: 1.25rem;
+}
+.bl-donor-card {
+    display: flex; align-items: center; gap: 1rem;
+    background: #fff; border: 1px solid var(--bl-line);
+    border-radius: 14px; padding: 1rem 1.15rem; height: 100%;
+}
+.bl-donor-group {
+    flex: 0 0 3.5rem; height: 3.5rem; border-radius: 12px;
+    background: var(--bl-red); color: #fff;
+    display: grid; place-items: center;
+    font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em;
+}
+.bl-donor-info { min-width: 0; }
+.bl-donor-name { font-weight: 650; overflow-wrap: anywhere; }
+.bl-donor-meta { color: var(--bl-muted); font-size: .93rem; }
+
+.pagination {
+    --bs-pagination-color: var(--bl-red);
+    --bs-pagination-hover-color: var(--bl-red-dark);
+    --bs-pagination-focus-color: var(--bl-red-dark);
+    --bs-pagination-active-bg: var(--bl-red);
+    --bs-pagination-active-border-color: var(--bl-red);
+    --bs-pagination-border-radius: 10px;
+}
+
+/* =====================================================================
+   PART 5 ADDITIONS (requests: tabs, timeline)
+   ===================================================================== */
+
+/* ---------- 15. Filter tabs (My requests) ---------- */
+.bl-tabs { gap: .35rem; }
+.bl-tabs .nav-link {
+    color: var(--bl-ink); background: #fff; border: 1px solid var(--bl-line);
+    border-radius: 999px; font-weight: 600; padding: .4rem .95rem;
+}
+.bl-tabs .nav-link:hover { border-color: var(--bl-red); color: var(--bl-red); }
+.bl-tabs .nav-link.active { background: var(--bl-red); border-color: var(--bl-red); color: #fff; }
+.bl-tab-count {
+    display: inline-block; min-width: 1.5rem; text-align: center; margin-left: .25rem;
+    border-radius: 999px; background: rgba(0,0,0,.07); font-size: .8rem; padding: 0 .4rem;
+}
+.bl-tabs .nav-link.active .bl-tab-count { background: rgba(255,255,255,.25); }
+
+/* ---------- 16. Status timeline (newest first) ---------- */
+.bl-timeline { list-style: none; margin: 0; padding: 0 0 0 1.3rem; border-left: 2px solid var(--bl-line); }
+.bl-timeline li { position: relative; padding: 0 0 1.1rem .9rem; }
+.bl-timeline li:last-child { padding-bottom: 0; }
+.bl-timeline li::before {
+    content: ""; position: absolute; left: -1.3rem; top: .35rem; transform: translateX(-50%);
+    width: .75rem; height: .75rem; border-radius: 50%;
+    background: #fff; border: 2px solid var(--bl-red);
+}
+.bl-timeline li:first-child::before { background: var(--bl-red); }
+
+/* ---------- Day 6: sticky sidebar, report bars, print ---------- */
+@media (min-width: 992px) {
+    /* the whole sidebar column stays in view while the page scrolls */
+    .bl-sidebar { position: sticky; top: var(--bl-topbar-h, 60px); align-self: flex-start;
+                  height: calc(100vh - var(--bl-topbar-h, 60px)); overflow-y: auto; }
+}
+.bl-bar { height: .65rem; background: #EFE9EB; border-radius: 999px; overflow: hidden; }
+.bl-bar > span { display: block; height: 100%; background: var(--bl-red); border-radius: 999px; }
+.bl-bar.alt > span { background: #6C757D; }
+@media print {
+    .bl-topbar, .bl-sidebar, .no-print { display: none !important; }
+    .bl-dash-main { max-width: 100%; padding: 0; }
+    .bl-panel { break-inside: avoid; box-shadow: none !important; }
+}
