@@ -1,0 +1,3 @@
+# Show our own page when an address does not exist (Apache reads this file).
+# If you rename the project folder, change /BloodBank here too.
+ErrorDocument 404 /BloodBank/404.php
