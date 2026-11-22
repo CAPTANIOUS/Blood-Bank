@@ -94,8 +94,13 @@ $returnQuery = http_build_query($filters + ['page' => $page]);
 require_once __DIR__ . '/../includes/dash_header.php';
 ?>
 
-<h1 class="bl-dash-title">Donors</h1>
-<p class="text-secondary mb-4">Search, view, edit or deactivate donor accounts.</p>
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-4">
+    <div>
+        <h1 class="bl-dash-title mb-1">Donors</h1>
+        <p class="text-secondary mb-0">Search, view, edit or deactivate donor accounts.</p>
+    </div>
+    <a class="btn btn-outline-blood no-print" href="<?php echo BASE_URL; ?>/admin/export_donors.php?<?php echo e(http_build_query($filters)); ?>">Download CSV</a>
+</div>
 
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3"><div class="bl-stat"><div class="num"><?php echo (int)$summary['total']; ?></div><div class="lbl">All donors</div></div></div>

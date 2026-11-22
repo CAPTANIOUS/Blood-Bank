@@ -89,6 +89,22 @@ All in `queries_demo.sql` (all verified to run): CREATE/INSERT/UPDATE/DELETE (qu
 **What happens to a deactivated user's data?** Kept. Only login is blocked.
 **What would you add next?** Email/SMS alerts, compatible-group matching, forgot-password, IP-based login limits, blood-stock inventory, a map.
 
-## 8. Be honest about the limits
+## 8. New in version 1.1 (small upgrades by the team)
+| Upgrade | What it does | Where | Who |
+|---|---|---|---|
+| Idle time-out | A logged-in person who does nothing for 30 minutes is logged out (shared computers) | `includes/auth.php`, `config/config.php` | Member 1 |
+| Password strength bar | Shows weak / strong while typing, in the browser | `assets/js/main.js` | Member 1 |
+| Live numbers + 404 page | Home page counts come from SQL; missing pages show our own page | `index.php`, `404.php`, `.htaccess` | Member 1 |
+| Advanced SQL file | ALTER, RIGHT JOIN, correlated subquery, EXISTS, view, procedure, trigger, transaction, EXPLAIN | `database/advanced_queries.sql` | Member 1 |
+| CSV export of donors | Admin downloads the filtered list; each download is logged; cells are protected against Excel formulas | `admin/export_donors.php` | Member 2 |
+| Donation history cards | Last donation date and days since it | `donor/donation_history.php` | Member 2 |
+| Reports use a view | The "blood needed" table reads `v_blood_group_summary`; new urgency table | `admin/reports.php` | Member 3 |
+| Print a request | Print button on the request page | `requester/request_details.php` | Member 3 |
+
+**Why does the CSV export write to `admin_logs`?** The file holds phone numbers and emails, so we keep a record of who downloaded it and when.
+**What is CSV injection?** A cell starting with `=` can run as a formula in Excel. We add a leading `'` so it stays plain text.
+**Why a view in Reports?** The SQL lives in the database once; the page only reads it. Less repeated code.
+
+## 9. Be honest about the limits
 In-site notifications only · exact group match only · login lock is per browser session · no forgot-password page ·
 only donors can change their own password · documents are checked by a human, not by the program.
