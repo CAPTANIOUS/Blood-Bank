@@ -62,7 +62,18 @@ Use **three different browsers** for the three roles (for example Chrome, Chrome
 ## I. Phone view
 - [ ] Browser zoom / DevTools (F12 → phone icon): home, login, a dashboard and a request page have **no sideways scrolling**; the **Menu** button opens the sidebar.
 
-## J. Before the viva
+## J. New in version 1.1
+- [ ] **Home page:** a strip under the banner shows three live numbers (donors ready, requests completed, bags donated).
+- [ ] **Register:** typing a password shows a strength bar (red = weak, green = strong).
+- [ ] Open `http://localhost/BloodBank/nothing-here.php` → the friendly **404** page (not the Apache error page).
+- [ ] Login, then leave the site idle for the time set in `SESSION_IDLE_SECONDS` (set it to `10` for this test, then back to `30 * 60`) → next click goes to the login page with a "logged out because you did nothing" message.
+- [ ] **Admin → Donors → Download CSV** gives a file that opens in Excel; with a filter set (for example blood group A+) the file holds only those donors. A donor or requester opening the same address gets "Access denied".
+- [ ] **Donor → Donation history** shows *Last donation* and *Days since last donation* (only when a donation exists).
+- [ ] **Admin → Reports** shows the **Emergency and normal requests** table, and the *Blood needed* table still matches the earlier numbers.
+- [ ] **Requester → a request → Print** opens the print preview without the menu.
+- [ ] phpMyAdmin → SQL tab → paste `database/advanced_queries.sql` part by part: every part runs (the *future date* part must show an error on purpose).
+
+## K. Before the viva
 - [ ] `test_db.php` deleted. `APP_DEBUG` set to `false`. Demo data re-imported. Uploads folder emptied.
 
 Result: ______ / ______ boxes ticked.   Problems found: ______________________________
