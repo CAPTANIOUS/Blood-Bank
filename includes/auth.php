@@ -18,6 +18,16 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+/* Idle time-out: nobody is clicking for a long time (maybe a shared computer) -> log out.
+ * force_logout() is defined further down; PHP knows it already when this line runs. */
+if (!empty($_SESSION['user_id'])) {
+    if (isset($_SESSION['last_active']) && time() - $_SESSION['last_active'] > SESSION_IDLE_SECONDS) {
+        force_logout('warning', 'You were logged out because you did nothing for '
+            . (int)(SESSION_IDLE_SECONDS / 60) . ' minutes. Please login again.');
+    }
+    $_SESSION['last_active'] = time();     // "I am still here"
+}
+
 /* Is somebody logged in? */
 function is_logged_in(): bool
 {

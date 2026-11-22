@@ -8,6 +8,7 @@
  *   5. Request form: the date/time boxes are shown only for a Normal request.
  *   6. File boxes with data-max-mb / data-max-files check the files before upload.
  *   7. Buttons with data-confirm-click="question" ask "OK / Cancel" when clicked.
+ *   8. Registration forms show a password strength bar while the person types.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -97,6 +98,38 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             box.setCustomValidity(message);
             if (feedback) { feedback.textContent = message || normalText; }
+        });
+    });
+
+    // ---- 8. Password strength bar (only on forms that ask to confirm the password) ----
+    document.querySelectorAll('form').forEach(function (form) {
+        var pass = form.querySelector('input[name="password"]');
+        if (!pass || !form.querySelector('input[name="confirm_password"]')) { return; }
+
+        var wrap = document.createElement('div');
+        wrap.className = 'mt-2';
+        wrap.innerHTML = '<div class="progress" style="height:6px"><div class="progress-bar" role="progressbar" style="width:0%"></div></div>' +
+                         '<div class="form-text" aria-live="polite"></div>';
+        pass.insertAdjacentElement('afterend', wrap);
+        var bar  = wrap.querySelector('.progress-bar');
+        var text = wrap.querySelector('.form-text');
+
+        pass.addEventListener('input', function () {
+            var v = pass.value, score = 0;
+            if (v.length >= 8)               { score++; }
+            if (v.length >= 12)              { score++; }
+            if (/[a-z]/.test(v) && /[A-Z]/.test(v)) { score++; }
+            if (/\d/.test(v))                { score++; }
+            if (/[^A-Za-z0-9]/.test(v))      { score++; }
+            if (v.length === 0)              { score = -1; }
+
+            var levels = [['Too weak', 'bg-danger', 20], ['Weak', 'bg-danger', 40], ['Fair', 'bg-warning', 60],
+                          ['Good', 'bg-info', 80], ['Strong', 'bg-success', 100]];
+            if (score < 0) { bar.style.width = '0%'; text.textContent = ''; return; }
+            var lv = levels[Math.min(score, 4)];
+            bar.className = 'progress-bar ' + lv[1];
+            bar.style.width = lv[2] + '%';
+            text.textContent = 'Password strength: ' + lv[0] + (score < 3 ? ' - try adding capital letters, numbers and symbols.' : '.');
         });
     });
 

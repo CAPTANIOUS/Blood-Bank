@@ -3,7 +3,16 @@
  * index.php  -  Home page
  */
 $pageTitle = 'Home';
+require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/header.php';
+
+// Live numbers for the strip under the banner (one small query each, no private data)
+$stats = $pdo->query(
+    "SELECT (SELECT COUNT(*) FROM donors d JOIN users u ON u.user_id = d.user_id
+              WHERE u.is_active = 1 AND d.is_available = 1)                 AS donors,
+            (SELECT COUNT(*) FROM blood_requests WHERE status = 'Completed') AS completed,
+            (SELECT COALESCE(SUM(bags_donated), 0) FROM donations)           AS bags"
+)->fetch();
 
 // The 8 blood groups used by the search tiles
 $bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
@@ -42,6 +51,17 @@ $bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
                 </div>
             </div>
 
+        </div>
+    </div>
+</section>
+
+<!-- ============ LIVE NUMBERS ============ -->
+<section class="py-4 bg-white border-bottom">
+    <div class="container">
+        <div class="row text-center g-3">
+            <div class="col-4"><div class="display-6 fw-bold text-danger"><?php echo (int)$stats['donors']; ?></div><div class="text-secondary small">Donors ready to help</div></div>
+            <div class="col-4"><div class="display-6 fw-bold text-danger"><?php echo (int)$stats['completed']; ?></div><div class="text-secondary small">Requests completed</div></div>
+            <div class="col-4"><div class="display-6 fw-bold text-danger"><?php echo (int)$stats['bags']; ?></div><div class="text-secondary small">Blood bags donated</div></div>
         </div>
     </div>
 </section>
