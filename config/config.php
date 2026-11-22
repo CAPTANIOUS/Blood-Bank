@@ -19,6 +19,9 @@ define('UPLOAD_DIR', __DIR__ . '/../uploads/medical_documents/');
 define('MAX_UPLOAD_BYTES', 5 * 1024 * 1024);   // 5 MB per file
 define('MAX_DOCS_PER_REQUEST', 3);             // files allowed for one request
 
+// A logged-in person who does nothing for this long is logged out (in seconds).
+define('SESSION_IDLE_SECONDS', 30 * 60);       // 30 minutes
+
 // All dates and times use Bangladesh time.
 date_default_timezone_set('Asia/Dhaka');
 
