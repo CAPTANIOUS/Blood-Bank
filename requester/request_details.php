@@ -146,7 +146,8 @@ require_once __DIR__ . '/../includes/dash_header.php';
         <?php if ($request['urgency'] === 'Emergency'): ?><span class="bl-status bl-status-rejected">Emergency</span><?php endif; ?>
         <p class="text-secondary mt-2 mb-0"><?php echo e($nextStep); ?></p>
     </div>
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 no-print">
+        <button type="button" class="btn btn-outline-secondary" onclick="window.print()">Print</button>
         <?php if ($canEdit): ?>
             <a class="btn btn-outline-blood" href="<?php echo BASE_URL; ?>/requester/edit_request.php?id=<?php echo (int)$id; ?>">Edit</a>
         <?php endif; ?>

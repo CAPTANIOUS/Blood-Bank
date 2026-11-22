@@ -29,15 +29,12 @@ $byStatus = $pdo->query('SELECT status, COUNT(*) FROM blood_requests GROUP BY st
 $statuses = ['Pending', 'Under Review', 'Approved', 'Donor Matched', 'Completed', 'Rejected', 'Cancelled'];
 $maxStatus = max(1, $byStatus ? max($byStatus) : 1);
 
-/* 3. Blood still needed (open requests) against donors who are available - per blood group */
+/* 3. Blood still needed (open requests) against donors who are available - per blood group.
+ *    The numbers come from the database VIEW v_blood_group_summary (see database/bloodbank.sql). */
 $supply = $pdo->query(
-    "SELECT bg.group_name,
-            COALESCE((SELECT SUM(r.bags_required) FROM blood_requests r
-                      WHERE r.blood_group_id = bg.blood_group_id
-                        AND r.status IN ('Pending','Under Review','Approved','Donor Matched')), 0) AS bags_needed,
-            (SELECT COUNT(*) FROM donors d JOIN users u ON u.user_id = d.user_id
-              WHERE d.blood_group_id = bg.blood_group_id AND u.is_active = 1 AND d.is_available = 1) AS donors_available
-     FROM blood_groups bg ORDER BY bg.blood_group_id"
+    "SELECT group_name, bags_needed, donors_available
+     FROM v_blood_group_summary
+     ORDER BY FIELD(group_name, 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-')"
 )->fetchAll();
 $maxSupply = 1;
 foreach ($supply as $s) { $maxSupply = max($maxSupply, (int)$s['bags_needed'], (int)$s['donors_available']); }
@@ -66,6 +63,12 @@ $speed = $pdo->query(
      FROM blood_requests WHERE status = 'Completed' AND completed_at IS NOT NULL"
 )->fetch();
 $emerg = $pdo->query("SELECT COUNT(*) FROM blood_requests WHERE urgency = 'Emergency'")->fetchColumn();
+
+/* 6b. Normal and Emergency requests side by side (GROUP BY + COUNT + SUM + AVG) */
+$byUrgency = $pdo->query(
+    "SELECT urgency, COUNT(*) AS n, SUM(status = 'Completed') AS done, ROUND(AVG(bags_required), 1) AS avg_bags
+     FROM blood_requests GROUP BY urgency ORDER BY FIELD(urgency, 'Emergency', 'Normal')"
+)->fetchAll();
 
 /* 7. Top donors (by bags) */
 $top = $pdo->query(
@@ -156,6 +159,25 @@ function bar(int $value, int $max, string $class = ''): string
                 <div class="mb-2"><?php echo bar((int)$d['n'], $maxDistrict); ?></div>
             <?php endforeach; ?>
         </div>
+    </div>
+</div>
+
+<div class="bl-panel mb-3">
+    <h2 class="bl-panel-title">Emergency and normal requests</h2>
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead><tr><th>Type</th><th>Requests</th><th>Completed</th><th>Average bags</th></tr></thead>
+            <tbody>
+            <?php foreach ($byUrgency as $u): ?>
+                <tr>
+                    <td><strong><?php echo e($u['urgency']); ?></strong></td>
+                    <td><?php echo (int)$u['n']; ?></td>
+                    <td><?php echo (int)$u['done']; ?></td>
+                    <td><?php echo e($u['avg_bags']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
