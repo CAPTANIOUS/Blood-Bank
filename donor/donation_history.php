@@ -18,6 +18,9 @@ $stmt = $pdo->prepare(
 $stmt->execute([$me['id']]);
 $rows = $stmt->fetchAll();
 $bags = array_sum(array_column($rows, 'bags_donated'));
+// The newest donation is first in the list (ORDER BY ... DESC), so it gives the "last" date
+$lastDate  = $rows ? $rows[0]['donation_date'] : null;
+$daysSince = $lastDate ? (int)(new DateTime($lastDate))->diff(new DateTime('today'))->days : null;
 ?>
 
 <h1 class="bl-dash-title">Donation history</h1>
@@ -26,6 +29,10 @@ $bags = array_sum(array_column($rows, 'bags_donated'));
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3"><div class="bl-stat bl-stat-red"><div class="num"><?php echo count($rows); ?></div><div class="lbl">Donations</div></div></div>
     <div class="col-6 col-lg-3"><div class="bl-stat"><div class="num"><?php echo (int)$bags; ?></div><div class="lbl">Bags given</div></div></div>
+    <?php if ($lastDate): ?>
+    <div class="col-6 col-lg-3"><div class="bl-stat"><div class="num"><?php echo e(date('d M', strtotime($lastDate))); ?></div><div class="lbl">Last donation (<?php echo e(date('Y', strtotime($lastDate))); ?>)</div></div></div>
+    <div class="col-6 col-lg-3"><div class="bl-stat"><div class="num"><?php echo $daysSince; ?></div><div class="lbl">Days since last donation</div></div></div>
+    <?php endif; ?>
 </div>
 
 <div class="bl-panel">
